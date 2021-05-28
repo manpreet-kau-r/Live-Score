@@ -1,4 +1,4 @@
-const API_KEY = "4pZabvmyY1XRV7a8fpjnRdEcnqt2";
+const API_KEY = "";
 
 // get all the matches [upcoming matches]
 export const getMatches = () =>
