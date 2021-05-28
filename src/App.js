@@ -1,23 +1,40 @@
-import logo from './logo.svg';
 import './App.css';
+import Navbar from './Components/Navbar';
+import React, { Fragment, useEffect, useState } from "react";
+import { getMatches } from './api/Api';
+import MyCard from './Components/MyCard';
+import { Grid, Typography } from "@material-ui/core";
 
-function App() {
+function App() 
+{
+  const [matches, setMatches] = useState([]);
+
+  useEffect(() => 
+  {
+    getMatches().then((data) => setMatches(data.matches) )
+                .catch((error) => alert("Could not load data!"));
+  }, [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navbar />
+      
+      <Typography variant="h3" style={{ marginTop: 20 }}>Welcome to Live Score</Typography>
+      
+      <Grid container>
+        <Grid item sm={2}></Grid>
+        <Grid item sm={8}>
+          {
+            matches.map((match) => 
+            { 
+                return (<Fragment key={match.unique_id}>
+                  { (match.type === "Twenty20") ? <MyCard match={match} />  : "" }
+                </Fragment> )
+            })
+          }
+        </Grid>
+      </Grid>
+
     </div>
   );
 }
